@@ -7,7 +7,7 @@ VALUES ('João', 'Pereira', 'jo@email.com', '09876543210', '1985-08-25', 'teste'
 
 -- persons
 INSERT INTO persons (name, lastname, email, cpf, birth_date, user_id, is_active)
-VALUES ('Carlos', 'Mendes', 'cm@email.com', '56789012345', '1988-03-12', 5, TRUE);
+VALUES ('Carlos', 'Mendes', 'cm@email.com', '56789012345', '1988-03-12', 1, TRUE);
 
 INSERT INTO persons (name, lastname, email, cpf, birth_date, user_id, is_active)
 VALUES ('Juliana', 'Costa', 'jc@email.com', '56729012347', '1995-09-30', null, TRUE);

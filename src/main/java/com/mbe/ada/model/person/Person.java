@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import com.mbe.ada.model.person.dto.PersonDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -76,6 +78,18 @@ public class Person {
 		this.isActive = isActive;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+	}
+	
+	public Person(PersonDTO data) {
+		super();
+		this.id = data.id();
+		this.name = data.name();
+		this.lastname = data.lastname();
+		this.email = data.email();
+		this.cpf = data.cpf();
+		this.birthDate = data.birthDate();
+		this.userId = data.userId();
+		this.isActive = true;
 	}
 
 	public Long getId() {
@@ -156,6 +170,35 @@ public class Person {
 
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	
+	public Person updateValues(PersonDTO data) {
+		
+		if (data.name() != null) {
+            this.name = data.name();
+        }
+
+        if (data.lastname() != null) {
+            this.lastname = data.lastname();
+        }
+
+        if (data.email() != null) {
+            this.email = data.email();
+        }
+
+        if (data.cpf() != null) {
+            this.cpf = data.cpf();
+        }
+
+        if (data.birthDate() != null) {
+            this.birthDate = data.birthDate();
+        }
+
+        if (data.userId() != null) {
+            this.userId = data.userId();
+        }
+
+        return this;
 	}
 
 

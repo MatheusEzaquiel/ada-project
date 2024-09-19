@@ -11,8 +11,7 @@ import com.mbe.ada.model.user.User;
 @Repository
 public interface IUserRepository extends JpaRepository<User, Long>{
 	
-	@SQL("SELECT id, name, email, cpf, birth_date FROM users")
+	@SQL("SELECT id, name, email, cpf, birthDate FROM User")
 	List<User> findAll();
-
 	
 }
