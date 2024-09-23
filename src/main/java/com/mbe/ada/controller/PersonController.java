@@ -14,14 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.mbe.ada.model.person.Person;
 import com.mbe.ada.model.person.dto.PersonDTO;
 import com.mbe.ada.model.user.User;
 import com.mbe.ada.repository.IPersonRepository;
 import com.mbe.ada.repository.IUserRepository;
-import com.mbe.ada.utils.Utils;
 
 @RestController
 @RequestMapping(value = "/persons")
