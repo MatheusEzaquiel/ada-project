@@ -1,5 +1,6 @@
 package com.mbe.ada.model.photo;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -75,9 +76,9 @@ public class Photo {
 			this.personId = data.personId();
 		}
 		
-		public Photo(MultipartFile file, Long personId, boolean isDefault) throws IOException {
-			this.name = file.getOriginalFilename();
-			this.imageData = file.getBytes();
+		public Photo(String newFileName, MultipartFile imageData, Long personId, boolean isDefault) throws IOException {
+			this.name = newFileName;
+			this.imageData = imageData.getBytes();
 			this.personId = personId;
 			this.isDefault = isDefault;
 			this.active = true;

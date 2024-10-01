@@ -22,6 +22,7 @@ import com.mbe.ada.model.photo.Photo;
 import com.mbe.ada.model.photo.dto.PhotoDTO;
 import com.mbe.ada.repository.IPersonRepository;
 import com.mbe.ada.repository.IPhotoRepository;
+import com.mbe.ada.service.ImageService;
 
 @RestController
 @RequestMapping(value = "/photos")
@@ -32,6 +33,9 @@ public class PhotoController {
     
     @Autowired
 	IPersonRepository personRepos;
+    
+    @Autowired
+    ImageService imageService;
 
 
     @GetMapping
@@ -51,23 +55,31 @@ public class PhotoController {
 
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity create(
+    		@RequestParam("file") MultipartFile file,
     		@RequestParam("personId") Long personId,
-    		@RequestParam("isDefault") boolean isDefault,
-    		@RequestPart("imageData") MultipartFile file) throws IOException {
+    		@RequestParam("isDefault") boolean isDefault
+    		) throws IOException {
     	
     	Optional<Person> person = personRepos.findById(personId);
         
         if (person.isEmpty()) 
         	return new ResponseEntity("Pessoa não encontrada", HttpStatus.NOT_FOUND);
     	
-        Photo photoToCreate = new Photo(file, personId, isDefault);
+
+        String newFileName = imageService.saveImage(file.getBytes(), file.getOriginalFilename());
+
+        Photo photoToCreate = new Photo(newFileName, file, personId, isDefault);
+        
+        if(!isDefault)
+        	photoToCreate.setImageData(null);
         
         Photo savedPhoto = photoRepository.save(photoToCreate);
+        
+        
         PhotoDTO responseDTO = new PhotoDTO(savedPhoto);
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
     
-
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable Long id) {
     	
@@ -94,4 +106,6 @@ public class PhotoController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    
 }
