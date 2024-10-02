@@ -16,3 +16,9 @@ VALUES ('Juliana', 'Costa', 'jc@email.com', '56729012347', '1995-09-30', null, T
 INSERT INTO photos (name, person_id, image_data, is_default, active, created_at, updated_at)
 VALUES ('reference_photo.jpg', 1, NULL, TRUE, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
+-- attendancies
+INSERT INTO attendances (person_id, photo_name, is_active, created_at, updated_at)
+VALUES (1, 'photo1.jpg', true, NOW(), NOW());
+
+INSERT INTO attendances (person_id, photo_name, is_active, created_at, updated_at)
+VALUES (2, 'photo2.jpg', true, NOW(), NOW());
