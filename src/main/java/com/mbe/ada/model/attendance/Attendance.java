@@ -27,13 +27,13 @@ public class Attendance {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "person_id", nullable = false)
+    @JoinColumn(name = "person_id")
     private Person person;
 
-    @Column(name = "photo_name", nullable = false, unique = true)
+    @Column(name = "photo_name", unique = true)
     private String photoName;
 
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active")
     private Boolean isActive = true;
 
     @Column(name = "created_at", updatable = false)

@@ -1,6 +1,5 @@
 package com.mbe.ada.model.photo;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -30,7 +29,7 @@ public class Photo {
 	    @Column(name = "name", nullable = false, unique = true)
 	    private String name;
 	    
-	    @Column(name = "person_id", nullable = false)
+	    @Column(name = "person_id")
 	    private Long personId;
 
 	    @Lob
@@ -41,10 +40,10 @@ public class Photo {
 	    private boolean isDefault = false;
 
 
-	    @Column(name = "active", nullable = false)
+	    @Column(name = "active")
 	    private boolean active = true;
 
-	    @Column(name = "created_at", nullable = false)
+	    @Column(name = "created_at")
 	    private Timestamp createdAt;
 
 	    @Column(name = "updated_at")

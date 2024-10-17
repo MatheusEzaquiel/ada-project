@@ -53,7 +53,7 @@ public class Person {
 	@Column(name = "user_id")
 	private Long userId;
 
-	@Column(name = "is_active", nullable = false)
+	@Column(name = "is_active")
 	private Boolean isActive;
 
 	@Column(name = "created_at", updatable = false)

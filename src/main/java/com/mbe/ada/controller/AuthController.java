@@ -34,8 +34,9 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public ResponseEntity login(@RequestBody LoginDTO data) {
-		User user = this.userRepos.findByEmail(data.email()).orElseThrow(() -> new RuntimeException("Erro ao buscar usuário"));
-		if(passwordEncoder.matches(user.getPassword(), data.password())) {
+		
+		User user = this.userRepos.findByEmail(data.login()).orElseThrow(() -> new RuntimeException("Erro ao buscar usuário"));
+		if(passwordEncoder.matches(data.password(), user.getPassword())) {
 			String token = this.tokenService.generateToken(user);
 			return ResponseEntity.ok(new ResponseDTO(user.getName(), token));
 		}
@@ -51,6 +52,8 @@ public class AuthController {
 		
 		if(user.isEmpty()) {
 			User newUser = new User();
+			newUser.setName(data.name());
+			newUser.setLastname(data.lastname());
 			newUser.setPassword(passwordEncoder.encode(data.password()));
 			newUser.setEmail(data.email());
 			newUser.setBirthDate(data.birthdate());

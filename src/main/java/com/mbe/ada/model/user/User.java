@@ -1,6 +1,5 @@
 package com.mbe.ada.model.user;
 
-import java.security.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -23,15 +22,13 @@ public class User {
 	@Id
 	private Long id;
 
-	@Column(name = "name", nullable = false, length = 75)
-	@NotNull
+	@Column(name = "name", length = 75)
+	@NotNull(message="Nome não pode ser Nulo")
 	@NotEmpty
 	@Size(min = 2, max = 75)
 	private String name;	
 
-	@Column(name = "lastname", nullable = false, length = 200)
-	@NotNull
-	@NotEmpty
+	@Column(name = "lastname", length = 200)
 	@Size(min = 2, max = 200)
 	private String lastname;
 
@@ -39,7 +36,6 @@ public class User {
 	private String email;
 
 	@Column(name = "cpf", length = 11, unique = true)
-	@NotNull
 	@NotEmpty
 	@Size(min = 11)
 	private String cpf;
@@ -53,7 +49,7 @@ public class User {
 	@Size(min = 8, max = 255)
 	private String password;
 
-	@Column(name = "is_active", nullable = false)
+	@Column(name = "is_active" )
 	private Boolean isActive;
 
 	@Column(name = "created_at", updatable = false)
@@ -62,11 +58,11 @@ public class User {
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
 
-	public User(Long id, @NotNull @NotEmpty @Size(min = 2, max = 75) String name,
-			@NotNull @NotEmpty @Size(min = 2, max = 200) String lastname, String email,
-			@NotNull @NotEmpty @Size(min = 11) String cpf, LocalDate birthDate,
-			@NotNull @NotEmpty @Size(min = 8, max = 255) String password, Boolean isActive, LocalDateTime createdAt,
-			LocalDateTime updatedAt) {
+	public User(Long id, String name,
+			String lastname, String email,
+			String cpf, LocalDate birthDate,
+			String password,
+			Boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.id = id;
 		this.name = name;
 		this.lastname = lastname;
@@ -74,7 +70,7 @@ public class User {
 		this.cpf = cpf;
 		this.birthDate = birthDate;
 		this.password = password;
-		this.isActive = isActive;
+		this.isActive = true;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
