@@ -2,6 +2,7 @@ package com.mbe.ada.model.user;
 
 import java.security.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -56,16 +57,16 @@ public class User {
 	private Boolean isActive;
 
 	@Column(name = "created_at", updatable = false)
-	private Timestamp createdAt;
+	private LocalDateTime createdAt;
 
 	@Column(name = "updated_at")
-	private Timestamp updatedAt;
+	private LocalDateTime updatedAt;
 
 	public User(Long id, @NotNull @NotEmpty @Size(min = 2, max = 75) String name,
 			@NotNull @NotEmpty @Size(min = 2, max = 200) String lastname, String email,
 			@NotNull @NotEmpty @Size(min = 11) String cpf, LocalDate birthDate,
-			@NotNull @NotEmpty @Size(min = 8, max = 255) String password, Boolean isActive, Timestamp createdAt,
-			Timestamp updatedAt) {
+			@NotNull @NotEmpty @Size(min = 8, max = 255) String password, Boolean isActive, LocalDateTime createdAt,
+			LocalDateTime updatedAt) {
 		this.id = id;
 		this.name = name;
 		this.lastname = lastname;
@@ -151,19 +152,19 @@ public class User {
 		this.isActive = isActive;
 	}
 
-	public Timestamp getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Timestamp getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Timestamp updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 

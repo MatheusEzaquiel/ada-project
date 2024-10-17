@@ -32,10 +32,6 @@ public class Attendance {
 
     @Column(name = "photo_name", nullable = false, unique = true)
     private String photoName;
-    
-    @Lob
-    @Column(name = "image_data")
-    private byte[] imageData;
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
