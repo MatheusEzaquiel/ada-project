@@ -9,8 +9,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mbe.ada.model.photo.dto.PhotoDTO;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,14 +35,13 @@ public class Photo {
 	    private Long personId;
 
 	    @Lob
-	    @Column(name = "image_data")
-	    private byte[] imageData;
+	    @Column(name = "image_data", columnDefinition = "bytea")
+	    private String imageData;
 	    
 	    @Column(name = "is_default")
 	    private boolean isDefault = false;
 
-
-	    @Column(name = "active")
+	    @Column(name = "is_active")
 	    private boolean active = true;
 
 	    @Column(name = "created_at")
@@ -52,7 +53,7 @@ public class Photo {
 	    
 	    public Photo() {}
 		
-		public Photo(Long id, String name, Long personId, byte[] imageData, boolean isDefault, boolean active,
+		public Photo(Long id, String name, Long personId, String imageData, boolean isDefault, boolean active,
 				Timestamp createdAt, Timestamp updatedAt) {
 			super();
 			this.id = id;
@@ -65,8 +66,6 @@ public class Photo {
 			this.updatedAt = updatedAt;
 		}
 
-
-
 		public Photo(PhotoDTO data) {
 			this.id = data.id();
 			this.name = data.name();
@@ -75,16 +74,15 @@ public class Photo {
 			this.personId = data.personId();
 		}
 		
-		public Photo(String newFileName, MultipartFile imageData, Long personId, boolean isDefault) throws IOException {
+		public Photo(String newFileName, String imageData, Long personId, boolean isDefault) throws IOException {
 			this.name = newFileName;
-			this.imageData = imageData.getBytes();
+			this.imageData = imageData;
 			this.personId = personId;
 			this.isDefault = isDefault;
 			this.active = true;
 			this.createdAt = Timestamp.from(Instant.now());
 			this.updatedAt = null;
 		}
-		
 
 		public Long getId() {
 			return id;
@@ -110,11 +108,11 @@ public class Photo {
 			this.personId = personId;
 		}
 
-		public byte[] getImageData() {
+		public String getImageData() {
 			return imageData;
 		}
 
-		public void setImageData(byte[] imageData) {
+		public void setImageData(String imageData) {
 			this.imageData = imageData;
 		}
 
@@ -153,7 +151,7 @@ public class Photo {
 		@Override
 		public String toString() {
 			return "Photo [id=" + id + ", name=" + name + ", imageData="
-					+ Arrays.toString(imageData) + ", active=" + active + ", createdAt=" + createdAt + ", updatedAt="
+					+ imageData + ", active=" + active + ", createdAt=" + createdAt + ", updatedAt="
 					+ updatedAt + "]";
 		}
 		

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Base64;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +14,25 @@ import org.springframework.stereotype.Service;
 public class ImageService {
 	
 	private Path folderPath = Path.of("/opt/images");
+	
+	public String getImageBase64(String filename) throws IOException {
+		
+		byte[] fileData;
+		
+		File file = new File(folderPath + File.separator + filename);
+		
+		if(!file.exists())
+			throw new IOException("Arquivio de Imagem não encontrado " + filename);
+	
+		
+		try (FileInputStream fis = new FileInputStream(file)) {
+			fileData = fis.readAllBytes();
+		}
+		
+		return Base64.getEncoder().encodeToString(fileData);
+		
+	}
+	
 	
 	public String saveImage(byte[] fileData, String filename) throws IOException {
 		

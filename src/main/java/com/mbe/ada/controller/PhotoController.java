@@ -1,6 +1,9 @@
 package com.mbe.ada.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,7 +57,7 @@ public class PhotoController {
     }
 
     @PostMapping(consumes = "multipart/form-data")
-    public ResponseEntity create(
+    public ResponseEntity<Photo> create(
     		@RequestParam("file") MultipartFile file,
     		@RequestParam("personId") Long personId,
     		@RequestParam("isDefault") boolean isDefault
@@ -67,28 +70,49 @@ public class PhotoController {
     	
 
         String newFileName = imageService.saveImage(file.getBytes(), file.getOriginalFilename());
+        
+        //file -> byte[] -> base64
+        String photoBase64 = Base64.getEncoder().encodeToString(file.getBytes());
 
-        Photo photoToCreate = new Photo(newFileName, file, personId, isDefault);
+        Photo photoToCreate = new Photo(newFileName, photoBase64, personId, isDefault);
         
         if(!isDefault)
         	photoToCreate.setImageData(null);
         
         Photo savedPhoto = photoRepository.save(photoToCreate);
-        
-        
-        PhotoDTO responseDTO = new PhotoDTO(savedPhoto);
-        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedPhoto, HttpStatus.CREATED);
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable Long id) {
     	
-        Optional<Photo> photo = photoRepository.findById(id);
+        Optional<Photo> photoOpt = photoRepository.findById(id);
+        
+        System.out.println(photoOpt.get().getImageData());
 
-        if (photo.isEmpty())
+        if (photoOpt.isEmpty())
             return new ResponseEntity("Foto não encontrada", HttpStatus.NOT_FOUND);
+        
+        
+        Photo photo = photoOpt.get();
+        
+        try {
+        	
+        	
+	        if(!photoOpt.get().isDefault()) {
+	        	
+	        	String imageBase64 = imageService.getImageBase64(photoOpt.get().getName());
+	        	
+	        	photo = photoOpt.get();
+	        	photo.setImageData(imageBase64);
+	        	
+	        }
+        
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        PhotoDTO photoDTO = new PhotoDTO(photo.get());
+        PhotoDTO photoDTO = new PhotoDTO(photo);
         return new ResponseEntity<>(photoDTO, HttpStatus.OK);
     }
 

@@ -6,7 +6,7 @@ import com.mbe.ada.model.photo.Photo;
 public record PhotoDTO(
 		Long id,
 	    String name,
-	    byte[] imageData,
+	    String imageData,
 	    boolean isDefault,
 	    Long personId) {
 	
