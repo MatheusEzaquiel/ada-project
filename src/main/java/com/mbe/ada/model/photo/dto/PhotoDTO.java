@@ -1,6 +1,7 @@
 package com.mbe.ada.model.photo.dto;
 
 
+import com.mbe.ada.model.person.Person;
 import com.mbe.ada.model.photo.Photo;
 
 public record PhotoDTO(
@@ -8,7 +9,7 @@ public record PhotoDTO(
 	    String name,
 	    String imageData,
 	    boolean isDefault,
-	    Long personId) {
+	    Person person) {
 	
 
 	    // Construtor que aceita uma entidade Photo
@@ -18,7 +19,7 @@ public record PhotoDTO(
 	            photo.getName(),
 	            photo.getImageData(),
 	            photo.isDefault(),
-	            photo.getPersonId()
+	            photo.getPerson()
 	        );
 	    }
 

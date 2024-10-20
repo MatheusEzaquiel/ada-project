@@ -73,8 +73,9 @@ public class PhotoController {
         
         //file -> byte[] -> base64
         String photoBase64 = Base64.getEncoder().encodeToString(file.getBytes());
+        
 
-        Photo photoToCreate = new Photo(newFileName, photoBase64, personId, isDefault);
+        Photo photoToCreate = new Photo(newFileName, photoBase64, person.get(), isDefault);
         
         if(!isDefault)
         	photoToCreate.setImageData(null);

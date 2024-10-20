@@ -3,15 +3,21 @@ package com.mbe.ada.model.person;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
+import com.mbe.ada.model.person.dto.CreatePersonDTO;
 import com.mbe.ada.model.person.dto.PersonDTO;
+import com.mbe.ada.model.photo.Photo;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -65,13 +71,15 @@ public class Person {
 
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
+	
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Photo> photos;
 
 	public Person(){}
 
 	
 	public Person(Long id, String name, String lastname, String email, String cpf, LocalDate birthDate, Boolean isTeacher, Long userId,
 			Boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.lastname = lastname;
@@ -85,8 +93,7 @@ public class Person {
 		this.updatedAt = updatedAt;
 	}
 	
-	public Person(PersonDTO data) {
-		this.id = data.id();
+	public Person(CreatePersonDTO data) {
 		this.name = data.name();
 		this.lastname = data.lastname();
 		this.email = data.email();
@@ -186,6 +193,15 @@ public class Person {
 		this.updatedAt = updatedAt;
 	}
 
+	public List<Photo> getPhotos() {
+		return photos;
+	}
+
+	public void setPhotos(List<Photo> photos) {
+		this.photos = photos;
+	}
+
+	
 	public Person updateValues(PersonDTO data) {
 		
 		if (data.name() != null) {

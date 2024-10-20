@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mbe.ada.model.person.Person;
 import com.mbe.ada.model.photo.dto.PhotoDTO;
 
 import jakarta.persistence.Basic;
@@ -16,7 +17,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
@@ -31,8 +34,9 @@ public class Photo {
 	    @Column(name = "name", nullable = false, unique = true)
 	    private String name;
 	    
-	    @Column(name = "person_id")
-	    private Long personId;
+	    @ManyToOne
+	    @JoinColumn(name = "person_id")
+	    private Person person;
 
 	    @Lob
 	    @Column(name = "image_data", columnDefinition = "bytea")
@@ -52,13 +56,18 @@ public class Photo {
 	    
 	    
 	    public Photo() {}
+	    
+	    public Photo(Long id, String imageData) {
+			this.id = id;
+			this.imageData = imageData;
+		}
 		
-		public Photo(Long id, String name, Long personId, String imageData, boolean isDefault, boolean active,
+		public Photo(Long id, String name, Person person, String imageData, boolean isDefault, boolean active,
 				Timestamp createdAt, Timestamp updatedAt) {
 			super();
 			this.id = id;
 			this.name = name;
-			this.personId = personId;
+			this.person = person;
 			this.imageData = imageData;
 			this.isDefault = isDefault;
 			this.active = active;
@@ -71,13 +80,13 @@ public class Photo {
 			this.name = data.name();
 			this.imageData = data.imageData();
 			this.isDefault = data.isDefault();
-			this.personId = data.personId();
+			this.person = data.person();
 		}
 		
-		public Photo(String newFileName, String imageData, Long personId, boolean isDefault) throws IOException {
+		public Photo(String newFileName, String imageData, Person person, boolean isDefault) throws IOException {
 			this.name = newFileName;
 			this.imageData = imageData;
-			this.personId = personId;
+			this.person = person;
 			this.isDefault = isDefault;
 			this.active = true;
 			this.createdAt = Timestamp.from(Instant.now());
@@ -100,12 +109,12 @@ public class Photo {
 			this.name = name;
 		}
 
-		public Long getPersonId() {
-			return personId;
+		public Person getPerson() {
+			return person;
 		}
 
-		public void setPersonId(Long personId) {
-			this.personId = personId;
+		public void setPerson(Person person) {
+			this.person = person;
 		}
 
 		public String getImageData() {
