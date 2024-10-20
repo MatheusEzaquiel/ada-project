@@ -2,6 +2,7 @@ package com.mbe.ada.model.person;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import com.mbe.ada.model.person.dto.PersonDTO;
@@ -49,6 +50,9 @@ public class Person {
 
 	@Column(name = "birth_date")
 	private LocalDate birthDate;
+	
+	@Column(name = "is_teacher")
+	private Boolean isTeacher;
 
 	@Column(name = "user_id")
 	private Long userId;
@@ -57,16 +61,16 @@ public class Person {
 	private Boolean isActive;
 
 	@Column(name = "created_at", updatable = false)
-	private Timestamp createdAt;
+	private LocalDateTime createdAt;
 
 	@Column(name = "updated_at")
-	private Timestamp updatedAt;
+	private LocalDateTime updatedAt;
 
 	public Person(){}
 
 	
-	public Person(Long id, String name, String lastname, String email, String cpf, LocalDate birthDate, Long userId,
-			Boolean isActive, Timestamp createdAt, Timestamp updatedAt) {
+	public Person(Long id, String name, String lastname, String email, String cpf, LocalDate birthDate, Boolean isTeacher, Long userId,
+			Boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -74,6 +78,7 @@ public class Person {
 		this.email = email;
 		this.cpf = cpf;
 		this.birthDate = birthDate;
+		this.isTeacher = isTeacher;
 		this.userId = userId;
 		this.isActive = isActive;
 		this.createdAt = createdAt;
@@ -81,7 +86,6 @@ public class Person {
 	}
 	
 	public Person(PersonDTO data) {
-		super();
 		this.id = data.id();
 		this.name = data.name();
 		this.lastname = data.lastname();
@@ -89,7 +93,9 @@ public class Person {
 		this.cpf = data.cpf();
 		this.birthDate = data.birthDate();
 		this.userId = data.userId();
+		this.isTeacher = data.isTeacher();
 		this.isActive = true;
+		this.createdAt = LocalDateTime.now();
 	}
 
 	public Long getId() {
@@ -139,6 +145,14 @@ public class Person {
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
+	
+	public Boolean getIsTeacher() {
+		return isTeacher;
+	}
+
+	public void setIsTeacher(Boolean isTeacher) {
+		this.isTeacher = isTeacher;
+	}
 
 	public Long getUserId() {
 		return userId;
@@ -156,22 +170,22 @@ public class Person {
 		this.isActive = isActive;
 	}
 
-	public Timestamp getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Timestamp getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Timestamp updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
+
 	public Person updateValues(PersonDTO data) {
 		
 		if (data.name() != null) {
@@ -200,7 +214,6 @@ public class Person {
 
         return this;
 	}
-
 
 	@Override
 	public String toString() {

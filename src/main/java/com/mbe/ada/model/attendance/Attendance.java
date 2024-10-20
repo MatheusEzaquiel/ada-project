@@ -1,10 +1,8 @@
 package com.mbe.ada.model.attendance;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import com.mbe.ada.model.person.Person;
-import com.mbe.ada.model.photo.Photo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,9 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity(name = "Attendance")
@@ -32,6 +28,9 @@ public class Attendance {
 
     @Column(name = "photo_name", unique = true)
     private String photoName;
+    
+    @Column(name = "register_date", unique = true)
+    private String registerDate;
 
     @Column(name = "is_active")
     private Boolean isActive = true;
@@ -44,16 +43,20 @@ public class Attendance {
 
     public Attendance() {}
     
-    public Attendance(Long id, Person person, String photoName, Timestamp registeredDate, Boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
-        this.person = person;
-        this.photoName = photoName;
-        this.isActive = isActive;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-    
-    public Attendance(Person person, String photoName) {
+    public Attendance(Long id, Person person, String photoName, String registerDate, Boolean isActive,
+			LocalDateTime createdAt, LocalDateTime updatedAt) {
+		super();
+		this.id = id;
+		this.person = person;
+		this.photoName = photoName;
+		this.registerDate = registerDate;
+		this.isActive = isActive;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+
+
+	public Attendance(Person person, String photoName) {
         this.person = person;
         this.photoName = photoName;
         this.isActive = true;
@@ -83,7 +86,15 @@ public class Attendance {
 	public void setPhotoName(String photoName) {
 		this.photoName = photoName;
 	}
-	
+
+	public String getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(String registerDate) {
+		this.registerDate = registerDate;
+	}
+
 	public Boolean getIsActive() {
 		return isActive;
 	}

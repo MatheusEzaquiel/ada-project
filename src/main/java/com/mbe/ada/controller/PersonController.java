@@ -46,6 +46,51 @@ public class PersonController {
 		return new ResponseEntity<List<PersonDTO>>(dataDTO, HttpStatus.OK);
 	}
 	
+	@GetMapping("/students")
+	public ResponseEntity<List<PersonDTO>>  listStudents() {		
+		
+		List<Person> data = personRepos.findByIsTeacherFalse();
+		
+		if(data.size() == 0)
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		
+		List<PersonDTO> dataDTO = data.stream()
+		.map(person -> new PersonDTO(person))
+		.toList();
+		
+		return new ResponseEntity<List<PersonDTO>>(dataDTO, HttpStatus.OK);
+	}
+	
+	@GetMapping("/students/inactive")
+	public ResponseEntity<List<PersonDTO>>  listInactiveStudents() {		
+		
+		List<Person> data = personRepos.findByIsTeacherFalseAndIsActiveFalse();
+		
+		if(data.size() == 0)
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		
+		List<PersonDTO> dataDTO = data.stream()
+		.map(person -> new PersonDTO(person))
+		.toList();
+		
+		return new ResponseEntity<List<PersonDTO>>(dataDTO, HttpStatus.OK);
+	}
+	
+	@GetMapping("/teachers")
+	public ResponseEntity<List<PersonDTO>>  listTeachers() {		
+		
+		List<Person> data = personRepos.findByIsTeacherTrue();
+		
+		if(data.size() == 0)
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		
+		List<PersonDTO> dataDTO = data.stream()
+		.map(person -> new PersonDTO(person))
+		.toList();
+		
+		return new ResponseEntity<List<PersonDTO>>(dataDTO, HttpStatus.OK);
+	}
+	
     @PostMapping
     public ResponseEntity<PersonDTO> create(@RequestBody PersonDTO data) {
        
